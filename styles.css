@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  /* background:  url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBTD12j2YVcPi4Qc18XI0Ws7lARf8reVLdZswAuS4ijA&s) center no-repeat; */
+  background: url(/Images/IMG_4906.JPG) center no-repeat;
+  background-size: cover;
+  /* min-height: 100vh; */
+}
+.playGround {
+    width: 100%;
+    aspect-ratio: 1;
+    /* background-image: url("https://t4.ftcdn.net/jpg/04/71/35/61/360_F_471356144_rQ4ELeb0p59MXaf8Mrf8df9XMz5j6sCd.jpg"); */
+    background: url(/Images/IMG_4903.JPG);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-wrap: wrap;
+    /* background: url(/Images/IMG_4903.JPG) center no-repeat; */
+}
+
+.playGround div {
+  /* aspect-ratio: 1; */
+  width: 6.6666666666666666666667%;
+  border: solid 1px black;
+  margin: 0;
+}
+
+
