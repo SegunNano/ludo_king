@@ -160,8 +160,6 @@ function moveSeeds(player) {
         jointArrays = [...jointArrays, ...c.seedRelativePosition]
         console.log(jointArrays)
     }
-    // inputDiv.classList.add('input_div', 'select', 'is-rounded', 'is-normal');
-    // selectOption = `<select name="" id=""><option>Select an Option1</option>`
     for (j = 0; j <= jointArrays.length; j++) {
         console.log(j)
         console.log(player.colorInfo[0].runPathWay().seedsRealPosition[j])
@@ -169,15 +167,24 @@ function moveSeeds(player) {
             document.querySelector(`.square_${player.colorInfo[0].runPathWay().seedsRealPosition[j]}`).addEventListener('click', function () {
                 player.colorInfo[0].seedRelativePosition[player.colorInfo[0].runPathWay().seedsRealPosition.indexOf(parseInt(this.classList[0].slice(-2)))] += 6
                 console.log(player.colorInfo[0].seedRelativePosition)
-                // for (j = 0; j <= jointArrays.length; j++) {
-                //     if (player.colorInfo[0].runPathWay().seedsRealPosition[j]) {
-                //         document.querySelector(`.square_${player.colorInfo[0].runPathWay().seedsRealPosition[j]}`).addEventListener('click', function () {
-                //     }
-                // }
+                for (let i = 0; i < 225; i++) {
+                    j = 0;
+                    ludoBoard.children[j].remove()
+                }
+                console.log('done')
+                for (let i = 1; i <= 225; i++) {
+                    const ludoBox = document.createElement('div');
+                    if (wayBoxes.some(waybox => { return i === waybox })) {
+                        const ludoBoxInnerText = document.createElement('p');
+                        ludoBoxInnerText.append(i)
+                        ludoBox.append(ludoBoxInnerText)
+                        ludoBox.classList.add(`square_${i}`)
+                    }
+                    ludoBoard.append(ludoBox);
+                }
             })
         }
     }
-    console.log('seed_moving')
 }
 
 function makeChoices(player, count) {
