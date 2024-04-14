@@ -163,11 +163,11 @@ function playGame() {
         }
         diceResult1 = document.createElement('p');
         diceResult1.classList.add('title-is-5')
-        diceResult1.innerText = dieOutCome[0]
+        diceResult1.innerText = dieOutCome[2]
         diceResult2 = document.createElement('p');
         diceResult2.classList.add('title-is-5')
         diceResult2.innerText = dieOutCome[1]
-        dieDiv.children[0].append(diceResult1)
+        dieDiv.children[2].append(diceResult1)
         dieDiv.children[1].append(diceResult2)
         // diceResult2 = document.createElement('h3');
         // diceResult2.innerText = dieOutCome[1]
