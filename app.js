@@ -157,13 +157,15 @@ function playGame() {
     if (!isGameOver) {
         dieOutCome = rolldie();
         for (dieDivv of dieDiv.children) {
-            if (dieDivv.children.length) {
-                dieDivv.children[0].remove()
+            if (dieDivv !== document.querySelector('.title-is-3')) {
+                if (dieDivv.children.length) {
+                    dieDivv.children[0].remove()
+                }
             }
         }
         diceResult1 = document.createElement('p');
         diceResult1.classList.add('title-is-5')
-        diceResult1.innerText = dieOutCome[2]
+        diceResult1.innerText = dieOutCome[0]
         diceResult2 = document.createElement('p');
         diceResult2.classList.add('title-is-5')
         diceResult2.innerText = dieOutCome[1]
