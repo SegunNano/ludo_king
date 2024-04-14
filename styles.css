@@ -3,17 +3,68 @@
 }
 
 body {
-  /* background:  url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBTD12j2YVcPi4Qc18XI0Ws7lARf8reVLdZswAuS4ijA&s) center no-repeat; */
-  background: url(/Images/IMG_4906.JPG) center no-repeat;
+  background-image: radial-gradient(rgba(254, 18, 1, 0.3),
+      rgb(254, 196, 0, 0.3),
+      rgb(0, 212, 0, 0.3),
+      rgb(0, 145, 254, 0.3)),
+    url("https://store-images.s-microsoft.com/image/apps.23512.14168906070567816.2c905c2f-df83-4ed1-b85a-8a30663f3138.0d912dd9-547b-4bf5-9039-f92dbc6c1e52?mode=scale&q=90&h=1080&w=1920");
+  /* background: url(/Images/IMG_4906.JPG) center no-repeat; */
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-wrap: wrap;
   /* min-height: 100vh; */
+}
+
+/* body div {
+  width: 50%;
+  aspect-ratio: 2;
+  height: 50%;
+} */
+
+.dieDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.dieDiv div {
+  width: 40px;
+  aspect-ratio: 1;
+  border: 1px solid black;
+  margin: 15px;
+  padding-top: 5px;
+  display: inline-block;
+  text-align: center;
+}
+
+.mainPart {
+  margin: 0;
+  width: 100%;
+  /* max-width: 700px; */
+}
+
+body .red {
+  background-color: rgba(254, 18, 1, 0.7);
+}
+
+body .yellow {
+  background-color: rgb(254, 196, 0, 0.7);
+}
+
+body .green {
+  background-color: rgb(0, 212, 0, 0.7);
+}
+
+body .blue {
+  background-color: rgb(0, 145, 254, 0.7);
 }
 
 .playGround {
   width: 100%;
   aspect-ratio: 1;
   /* background-image: url("https://t4.ftcdn.net/jpg/04/71/35/61/360_F_471356144_rQ4ELeb0p59MXaf8Mrf8df9XMz5j6sCd.jpg"); */
-  background: url(/Images/unnamed3.jpg);
+  background: url(/Images/unnamed3.jpg );
   /* background: url('https: //d1csarkz8obe9u.cloudfront.net/posterpreviews/ludo-game-board-template-design-dbcb8be21e11c28d6927b2f2d6282b1d_screen.jpg?ts=1599290723'); */
   background-position: center;
   background-repeat: no-repeat;
@@ -31,13 +82,13 @@ body {
 }
 
 .playGround div div {
-  width: 40%;
+  width: 35%;
   aspect-ratio: 1;
   /* margin-top: 20%;
   margin-left: 25%; */
   border-radius: 50%;
   /* border: 1px solid black; */
-  border: .5px solid white;
+  border: .2px solid rgba(0, 0, 0, 0.267);
 }
 
 

@@ -149,7 +149,6 @@ function createPlayerInfo(colorList, playerNo, num) {
         colorInfo
     }
 }
-inner
 
 function playGame() {
     player = playersList[playerButton.classList[0]]
@@ -157,17 +156,24 @@ function playGame() {
     count = 0;
     if (!isGameOver) {
         dieOutCome = rolldie();
-        // if (dieDiv.children.length) {
-        //     dieDiv.children[0].remove()
-        //     dieDiv.children[1].remove()
-        // }
-        // diceResult1 = document.createElement('h3');
-        // diceResult1.innerText = dieOutCome[0]
+        for (dieDivv of dieDiv.children) {
+            if (dieDivv.children.length) {
+                dieDivv.children[0].remove()
+            }
+        }
+        diceResult1 = document.createElement('p');
+        diceResult1.classList.add('title-is-5')
+        diceResult1.innerText = dieOutCome[0]
+        diceResult2 = document.createElement('p');
+        diceResult2.classList.add('title-is-5')
+        diceResult2.innerText = dieOutCome[1]
+        dieDiv.children[0].append(diceResult1)
+        dieDiv.children[1].append(diceResult2)
         // diceResult2 = document.createElement('h3');
         // diceResult2.innerText = dieOutCome[1]
         // dieDiv.append(diceResult1);
         // dieDiv.append(diceResult2);
-        // dieOutCome = [6, 2];
+        // dieOutCome = [6, 6];
         // diceResult.Innertext = `${dieOutCome}`;
         // buttonDiv.append(diceResult)
         console.log(dieOutCome)
@@ -342,26 +348,73 @@ function moveSeeds(player, count, lowNumDie, inSeedCountArray, highNumDie) {
     if (count <= 1) {
         for (let p of document.querySelectorAll(`.${player.player}`)) {
             p.addEventListener('click', () => {
-                // console.log(ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1], p.classList, p.parentElement.classList, p.parentElement.classList[0].slice(-(p.parentElement.classList[0].length - 7)))
-                p.remove()
-                withoutAdd = ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1]
                 if (count === 0) {
-                    ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1] += highNumDie;
+                    addedNum = highNumDie;
                 } else {
-                    ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1] += lowNumDie;
+                    addedNum = lowNumDie;
                 }
-                // if (ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1] > 57) {
-                //     if (document.querySelectorAll(`.${player.player}`))
-                // }
-                newLudoSeed = document.createElement('div');
-                newLudoSeed.classList.add(`${p.classList[0]}`, `${p.classList[1]}`, `${p.classList[2]}`);
-                // console.log(p, ludoBoxes[p.classList[0]])
-                // console.log(p, ludoBoxes[p.classList[0]].runPathWay().seedsRealPosition[parseInt(p.classList[1].slice(-1)) - 1])
-                document.querySelector(`.square_${ludoBoxes[p.classList[0]].runPathWay().seedsRealPosition[parseInt(p.classList[1].slice(-1)) - 1]}`).append(newLudoSeed)
-                count += 1;
-                // console.log(count)
-                makeChoices(player, count, lowNumDie, inSeedCountArray, highNumDie);
-                // console.log(player)
+                if (ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1] + addedNum < 58) {
+                    ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1] += addedNum;
+                    playerSeeds = [[p.classList[0], p.classList[1], document.querySelector(`.square_${ludoBoxes[p.classList[0]].runPathWay().seedsRealPosition[parseInt(p.classList[1].slice(-1)) - 1]}`)]]
+                    p.remove();
+                    for (let i = 0; i < document.querySelectorAll(`.${player.player}`).length; i++) {
+                        oldPlayer = document.querySelectorAll(`.${player.player}`)[i]
+                        console.log(oldPlayer.parentElement)
+                        if (oldPlayer.classList[1] !== p.classList[1]) {
+                            playerSeeds = [...playerSeeds, [oldPlayer.classList[0], oldPlayer.classList[1], oldPlayer.parentElement]]
+                            console.log(playerSeeds)
+                            oldPlayer.remove()
+                        }
+                    }
+                    for (i = 0; i < playerSeeds.length; i++) {
+                        newLudoSeed = document.createElement('div');
+                        newPlayer = playerSeeds[i];
+                        newLudoSeed.classList.add(`${newPlayer[0]}`, `${newPlayer[1]}`, `${player.player}`);
+                        console.log(newLudoSeed)
+                        newPlayer[2].append(newLudoSeed)
+                    }
+                    count += 1;
+                    makeChoices(player, count, lowNumDie, inSeedCountArray, highNumDie);
+                } else {
+                    movableSeeds = []
+                    if (document.querySelectorAll(`.${player.player}`).length > 1) {
+                        for (let i = 0; i < document.querySelectorAll(`.${player.player}`).length; i++) {
+                            oldPlayer = document.querySelectorAll(`.${player.player}`)[i]
+                            if (oldPlayer.classList[1] !== p.classList[1]) {
+                                if (ludoBoxes[oldPlayer.classList[0]].seedRelativePosition[parseInt(oldPlayer.classList[1].slice(-1)) - 1] + addedNum < 58) {
+                                    movableSeeds = [...movableSeeds, [oldPlayer.classList[0], oldPlayer.classList[1], document.querySelector(`.square_${ludoBoxes[oldPlayer.classList[0]].runPathWay().seedsRealPosition[parseInt(oldPlayer.classList[1].slice(-1)) - 1]}`).oldPlayer]]
+                                    oldPlayer.remove()
+                                }
+                            }
+                        }
+                        if (movableSeeds.length) {
+                            ludoBoxes[movableSeeds[0][0]].seedRelativePosition[parseInt(movableSeeds[0][1].slice(-1)) - 1] += addedNum;
+                            playerSeeds = [[p.classList[0], p.classList[1], p.parentElement], movableSeeds[0]];
+                            p.remove();
+                            movableSeeds[0][3].remove();
+                            for (let i = 0; i < document.querySelectorAll(`.${player.player}`).length; i++) {
+                                oldPlayer = document.querySelectorAll(`.${player.player}`)[i];
+                                for (ply of playerSeeds) {
+                                    if (ply[1] !== oldPlayer.classList[1]) {
+                                        playerSeeds = [...playerSeeds, [oldPlayer.classList[0], oldPlayer.classList[1], oldPlayer.parentElement]]
+                                    }
+                                }
+                            }
+                            for (i = 0; i < playerSeeds.length; i++) {
+                                newLudoSeed = document.createElement('div');
+                                newPlayer = playerSeeds[i];
+                                newLudoSeed.classList.add(`${newPlayer[0]}`, `${newPlayer[1]}`, `${player.player}`);
+                                console.log(newLudoSeed)
+                                newPlayer[2].append(newLudoSeed)
+                            }
+                            count += 1;
+                            makeChoices(player, count, lowNumDie, inSeedCountArray, highNumDie);
+                        } else {
+                            count += 1;
+                            makeChoices(player, count, lowNumDie, inSeedCountArray, highNumDie);
+                        }
+                    }
+                }
             }, { once: true })
         }
     } else {
@@ -399,8 +452,4 @@ function makeChoices(player, count, lowNumDie, inSeedCountArray, highNumDie) {
     } else {
         nextPlayer(player, lowNumDie)
     }
-}
-function moveIt(player, count, lowNumDie, inSeedCountArray, highNumDie, p) {
-
-    // console.log(document.querySelectorAll(`.${player.player}`), player, count, lowNumDie, inSeedCountArray, highNumDie, p)
 }
