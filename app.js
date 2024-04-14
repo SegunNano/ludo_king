@@ -12,8 +12,8 @@ const winners = []
 formDiv.classList.add('input_div', 'select', 'is-rounded', 'is-normal');
 formDiv.innerHTML = `<form action="/playNo" class="playNoForm">
 <select name = "" id = "" >
-<option value="two_2">two</option>
-<option value="four_4">four</option>
+<option value="two_2">Two</option>
+<option value="four_4">Four</option>
 </select>
 <button type="submit"> SUBMIT</button>
 </form>`

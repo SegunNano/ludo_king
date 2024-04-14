@@ -26,6 +26,9 @@ body {
 .dieDiv {
   display: flex;
   justify-content: center;
+  align-content: center;
+  align-items: center;
+  text-shadow: 2px 2px #558ABB;
 }
 
 .dieDiv div {
@@ -36,6 +39,7 @@ body {
   padding-top: 5px;
   display: inline-block;
   text-align: center;
+  border-radius: 5px;
 }
 
 .mainPart {
@@ -64,7 +68,7 @@ body .blue {
   width: 100%;
   aspect-ratio: 1;
   /* background-image: url("https://t4.ftcdn.net/jpg/04/71/35/61/360_F_471356144_rQ4ELeb0p59MXaf8Mrf8df9XMz5j6sCd.jpg"); */
-  background: url(/Images/unnamed3.jpg );
+  background: url(unnamed3.jpg );
   /* background: url('https: //d1csarkz8obe9u.cloudfront.net/posterpreviews/ludo-game-board-template-design-dbcb8be21e11c28d6927b2f2d6282b1d_screen.jpg?ts=1599290723'); */
   background-position: center;
   background-repeat: no-repeat;
