@@ -107,7 +107,6 @@ PlayNoForm.addEventListener('submit', (e) => {
         playerDivColor = document.createElement('div');
         playerText.innerText = `Player ${i}`
         playerDiv.append(playerText)
-        console.log(i, playerDiv)
         for (c of playersList[`player_${i}`].colorInfo) {
             playerDivvColor = document.createElement('div');
             playerDivvColor.classList.add(`${c.color}-out`)
@@ -119,7 +118,6 @@ PlayNoForm.addEventListener('submit', (e) => {
                 playerDivColorOutSeed = document.createElement('div');
                 playerDivColorOutSeed.classList.add(`${c.color}_out`, `seed_${j}`)
                 playerDivColorOut.append(playerDivColorOutSeed)
-                console.log(i, c.color, j, playerDivColorOutSeed)
             }
             playerDivvColor.append(playerDivColorOut)
             playerDivColor.append(playerDivvColor)
@@ -229,6 +227,7 @@ function playGame() {
 }
 function decisionFilter(player, count, lowNumDie, highNumDie) {
     if (count <= 1) {
+        console.log('decision', count)
         if (count === 0) {
             die = highNumDie
         } else {
@@ -261,14 +260,15 @@ function decisionFilter(player, count, lowNumDie, highNumDie) {
                 if (inSeedArray.length) {
                     newSeedOut(player, count, lowNumDie, highNumDie)
                 } else if (outSeedArray.length) {
-                    moveSeeds(player, count, lowNumDie, inSeedCountArray, highNumDie, die);
+                    moveSeeds(player, count, lowNumDie, highNumDie, die);
+
                 } else {
                     nextPlayer(player, lowNumDie)
                 }
             }
         } else {
             if (outSeedArray.length) {
-                moveSeeds(player, count, lowNumDie, inSeedCountArray, highNumDie, die);
+                moveSeeds(player, count, lowNumDie, highNumDie, die);
             } else {
                 nextPlayer(player, lowNumDie)
             }
@@ -333,6 +333,7 @@ function newSeedOut(player, count, lowNumDie, highNumDie) {
     }
 }
 function moveSeeds(player, count, lowNumDie, highNumDie, die) {
+    console.log('here', count)
     if (count <= 1) {
         playerOutSeedArray = document.querySelectorAll(`.${player.player}`)
         seedRelativePositionArray = [];
@@ -343,8 +344,10 @@ function moveSeeds(player, count, lowNumDie, highNumDie, die) {
             count += 1;
             decisionFilter(player, count, lowNumDie, highNumDie);
         } else {
-            for (let p of playerOutSeedArray) {
+            for (p of playerOutSeedArray) {
+                console.log('there', count, p)
                 if (ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1] + die < 58) {
+                    console.log('theres', count, p)
                     p.addEventListener('click', () => {
                         ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1] += die;
                         playerSeeds = [[p.classList[0], p.classList[1], document.querySelector(`.square_${ludoBoxes[p.classList[0]].runPathWay().seedsRealPosition[parseInt(p.classList[1].slice(-1)) - 1]}`)]]
@@ -374,6 +377,7 @@ function moveSeeds(player, count, lowNumDie, highNumDie, die) {
         decisionFilter(player, count, lowNumDie, highNumDie);
     }
 }
+
 function makeChoices(player, count, lowNumDie, highNumDie, die) {
     if (count <= 1) {
         inputDiv = document.createElement('div');
