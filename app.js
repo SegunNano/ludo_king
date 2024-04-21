@@ -116,7 +116,7 @@ PlayNoForm.addEventListener('submit', (e) => {
             playerDivvColor.append(pText)
             for (let j = 0; j < 4; j++) {
                 playerDivColorOutSeed = document.createElement('div');
-                playerDivColorOutSeed.classList.add(`${c.color}_out`, `seed_${j}`)
+                playerDivColorOutSeed.classList.add(`${c.color}_seedOut_${j}`)
                 playerDivColorOut.append(playerDivColorOutSeed)
             }
             playerDivvColor.append(playerDivColorOut)
@@ -197,19 +197,6 @@ function playGame() {
         dieDiv.children[1].append(diceResult1)
         dieDiv.children[2].append(diceResult2)
         console.log(dieOutCome)
-        jointArrays = [];
-        allJointArrays = []
-        for (c of player.colorInfo) {
-            jointArrays = [...jointArrays, ...c.seedRelativePosition]
-        }
-        for (d of jointArrays) {
-            r = d;
-            if (r === 57) {
-                r = 0
-            }
-            allJointArrays = [...allJointArrays, r]
-        }
-        inSeedCountArray = jointArrays.filter(s => s === 0);
         lowNumDie = dieOutCome.reduce((die1, die2) => {
             if (die2 < die1) {
                 return die2
@@ -437,6 +424,7 @@ function nextPlayer(player, lowNumDie) {
     for (let i = 0; i < 4; i++) {
         if (document.querySelector(`.${finishLine[i]}`).children.length) {
             for (fChild of document.querySelector(`.${finishLine[i]}`).children) {
+                document.querySelector(`.${fChild.classList[0]}_seedOut_${fChild.classList[1].slice(-1)}`).classList.add(`${fChild.classList[0]}_out`)
                 fChild.remove()
             }
         }
