@@ -452,7 +452,7 @@ function nextPlayer(player, lowNumDie) {
     }
     nxtId %= (Object.entries(playersList).length + 1);
     while (!playersList[`player_${nxtId}`]) {
-        nxtId++
+        nxtId += 1
     }
     if (Object.entries(playersList).length > 1) {
         playerButton = document.createElement('button');
