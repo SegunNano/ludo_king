@@ -6,7 +6,7 @@ const dieDiv = document.querySelector('.dieDiv');
 
 
 const ludoBoard = document.querySelector('.playGround');
-const isGameOver = false;
+let isGameOver = false;
 const winners = []
 
 
@@ -21,7 +21,15 @@ formDiv.innerHTML = `<form action="/playNo" class="playNoForm">
 const PlayNoForm = document.querySelector(`.formDiv form`);
 
 PlayNoForm.addEventListener('submit', (e) => {
+    gameInitiator(e);
+});
+function gameInitiator(e) {
     e.preventDefault();
+    while (ludoBoard.children[0]) {
+        ludoBoard.children[0].remove();
+    }
+
+
     playerNo = parseInt(document.querySelector('select').value.slice(-1));
 
 
@@ -89,34 +97,31 @@ PlayNoForm.addEventListener('submit', (e) => {
             runPathWay
         }
     }
-
     playersList = {};
     for (let i = 1; i <= playerNo; i++) {
-        playersList[`player_${i}`] = createPlayerInfo(colorList, playerNo, i)
+        playersList[`player_${i}`] = createPlayerInfo(colorList, playerNo, i);
     }
-
     playerButton = document.createElement('button');
-    playerButton.append(`Player 1`)
+    playerButton.append(`Player 1`);
     playerButton.classList.add(`player_1_button`, 'button', 'is-responsive', 'is-large');
-    buttonDiv.append(playerButton)
-
+    buttonDiv.append(playerButton);
     for (let i = 1; i <= playerNo; i++) {
         playerDiv = document.createElement('div');
-        playerText = document.createElement('p')
+        playerText = document.createElement('p');
         playerDivColor = document.createElement('div');
-        playerText.innerText = `Player ${i}`
-        playerDiv.append(playerText)
+        playerText.innerText = `Player ${i}`;
+        playerDiv.append(playerText);
         for (c of playersList[`player_${i}`].colorInfo) {
             playerDivvColor = document.createElement('div');
-            playerDivvColor.classList.add(`${c.color}-out`)
+            playerDivvColor.classList.add(`${c.color}-out`);
             playerDivColorOut = document.createElement('div');
             pText = document.createElement('p');
-            pText.innerText = `${c.color}`.toUpperCase()
-            playerDivvColor.append(pText)
+            pText.innerText = `${c.color}`.toUpperCase();
+            playerDivvColor.append(pText);
             for (let j = 0; j < 4; j++) {
                 playerDivColorOutSeed = document.createElement('div');
-                playerDivColorOutSeed.classList.add(`${c.color}_seedOut_${j + 1}`)
-                playerDivColorOut.append(playerDivColorOutSeed)
+                playerDivColorOutSeed.classList.add(`${c.color}_seedOut_${j + 1}`);
+                playerDivColorOut.append(playerDivColorOutSeed);
             }
             playerDivvColor.append(playerDivColorOut)
             playerDivColor.append(playerDivvColor)
@@ -150,15 +155,10 @@ PlayNoForm.addEventListener('submit', (e) => {
         }
         ludoBoard.append(ludoBox);
     }
-
-
-
     playerButton.addEventListener('click', playGame)
-    PlayNoForm.remove();
-});
-
-
-
+    document.querySelector('.playNoForm').remove();
+    isGameOver = false;
+}
 function createPlayerInfo(colorList, playerNo, num) {
     const colorInfo = [];
     if (playerNo === 4) {
@@ -175,9 +175,11 @@ function createPlayerInfo(colorList, playerNo, num) {
 }
 function playGame() {
     player = playersList[playerButton.classList[0].slice(0, 8)]
+    console.log(player)
     playerButton.remove()
     if (!isGameOver) {
         dieOutCome = rolldie();
+        console.log(dieOutCome)
         // dieOutCome = [6, 5]
         for (dieDivv of dieDiv.children) {
             if (dieDivv !== document.querySelector('.title-is-3')) {
@@ -348,7 +350,6 @@ function moveSeeds(player, count, lowNumDie, highNumDie, die) {
         decisionFilter(player, count, lowNumDie, highNumDie);
     }
 }
-
 function makeChoices(player, count, lowNumDie, highNumDie, die) {
     if (count <= 1) {
         inputDiv = document.createElement('div');
@@ -372,15 +373,12 @@ function makeChoices(player, count, lowNumDie, highNumDie, die) {
         decisionFilter(player, count, lowNumDie, highNumDie);
     }
 }
-
 function getRandomNumber(e) {
     return Math.floor(Math.random() * e + 1);
 }
 function rolldie() {
     return [getRandomNumber(6), getRandomNumber(6)]
 }
-
-
 function nextPlayer(player, lowNumDie) {
     for (pSeeds of document.querySelectorAll(`.${player.player}`)) {
         delArr = []
@@ -421,7 +419,7 @@ function nextPlayer(player, lowNumDie) {
         winners.push(playersList[player.player])
         delete playersList[player.player]
     }
-    if (lowNumDie === 6) {
+    if (lowNumDie === 6 && playersList[player.player]) {
         nxtId = parseInt(playerButton.classList[0].slice(0, 8).slice(-1));
     } else {
         nxtId = parseInt(playerButton.classList[0].slice(0, 8).slice(-1)) + 1;
@@ -437,10 +435,26 @@ function nextPlayer(player, lowNumDie) {
         buttonDiv.append(playerButton)
         playerButton.addEventListener('click', playGame)
     } else {
-        winners = [...winners, playersList[`player_${nxtId}`]]
-        position = [First, Second, Third, Fourth];
+        winners.push(playersList[`player_${nxtId}`])
+        position = ['First', 'Second', 'Third', 'Fourth'];
         isGameOver = true;
-
+        for (i = 0; i < winners.length; i++) {
+            console.log(winners[i].player, '-', position[i])
+        }
+        while (playerProgress.children[0]) {
+            playerProgress.children[0].remove()
+        }
+        formDiv.classList.add('input_div', 'select', 'is-rounded', 'is-normal');
+        formDiv.innerHTML = `<form action="/playNo" class="playNoForm">
+        <select name = "" id = "" >
+        <option value="two_2">Two</option>
+        <option value="four_4">Four</option>
+        </select>
+        <button type="submit"> SUBMIT</button>
+        </form>`
+        document.querySelector(`.playNoForm`).addEventListener('submit', (e) => {
+            gameInitiator(e)
+        });
     }
 }
 
