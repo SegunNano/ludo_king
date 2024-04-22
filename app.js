@@ -98,7 +98,7 @@ PlayNoForm.addEventListener('submit', (e) => {
 
     playerButton = document.createElement('button');
     playerButton.append(`Player 1`)
-    playerButton.classList.add(`player_1`, 'button', 'is-responsive', 'is-large');
+    playerButton.classList.add(`player_1_button`, 'button', 'is-responsive', 'is-large');
     buttonDiv.append(playerButton)
 
     for (let i = 1; i <= playerNo; i++) {
@@ -116,7 +116,7 @@ PlayNoForm.addEventListener('submit', (e) => {
             playerDivvColor.append(pText)
             for (let j = 0; j < 4; j++) {
                 playerDivColorOutSeed = document.createElement('div');
-                playerDivColorOutSeed.classList.add(`${c.color}_seedOut_${j}`)
+                playerDivColorOutSeed.classList.add(`${c.color}_seedOut_${j + 1}`)
                 playerDivColorOut.append(playerDivColorOutSeed)
             }
             playerDivvColor.append(playerDivColorOut)
@@ -176,7 +176,8 @@ function createPlayerInfo(colorList, playerNo, num) {
     }
 }
 function playGame() {
-    player = playersList[playerButton.classList[0]]
+    player = playersList[playerButton.classList[0].slice(0, 8)]
+    console.log(player)
     playerButton.remove()
     if (!isGameOver) {
         dieOutCome = rolldie();
@@ -248,7 +249,6 @@ function decisionFilter(player, count, lowNumDie, highNumDie) {
                     newSeedOut(player, count, lowNumDie, highNumDie)
                 } else if (outSeedArray.length) {
                     moveSeeds(player, count, lowNumDie, highNumDie, die);
-
                 } else {
                     nextPlayer(player, lowNumDie)
                 }
@@ -325,40 +325,48 @@ function moveSeeds(player, count, lowNumDie, highNumDie, die) {
         playerOutSeedArray = document.querySelectorAll(`.${player.player}`)
         seedRelativePositionArray = [];
         for (let i = 0; i < playerOutSeedArray.length; i++) {
-            seedRelativePositionArray = [...seedRelativePositionArray, ludoBoxes[playerOutSeedArray[i].classList[0]].seedRelativePosition[parseInt(playerOutSeedArray[i].classList[1].slice(-1)) - 1]]
+            seedRelativePositionArray = [...seedRelativePositionArray, [playerOutSeedArray[i].classList[0], parseInt(playerOutSeedArray[i].classList[1].slice(-1)), playerOutSeedArray[i].parentElement, ludoBoxes[playerOutSeedArray[i].classList[0]].seedRelativePosition[parseInt(playerOutSeedArray[i].classList[1].slice(-1)) - 1]]]
         }
-        if (seedRelativePositionArray.every(p => p + die > 57)) {
+        movebleSeedArray = seedRelativePositionArray.filter(p => p[3] + die < 58)
+        if (movebleSeedArray.length) {
+            for (let i = 0; i < movebleSeedArray.length; i++) {
+                document.querySelector(`.${movebleSeedArray[i][0]}_${movebleSeedArray[i][1]}`).addEventListener('click', () => {
+                    p = movebleSeedArray[i]
+                    console.log(movebleSeedArray, p, ludoBoxes[p[0]].seedRelativePosition[p[1] - 1], die)
+                    ludoBoxes[p[0]].seedRelativePosition[p[1] - 1] += die;
+                    console.log(movebleSeedArray, p, ludoBoxes[p[0]].seedRelativePosition[p[1] - 1])
+                    for (let j = 0; j < movebleSeedArray.length; j++) {
+                        document.querySelector(`.${movebleSeedArray[j][0]}_${movebleSeedArray[j][1]}`).remove()
+                        newLudoSeed = document.createElement('div');
+                        newLudoSeed.classList.add(`${movebleSeedArray[j][0]}`, `${movebleSeedArray[j][0]}_${movebleSeedArray[j][1]}`, `${player.player}`)
+                        if (p[0] === movebleSeedArray[j][0] && p[1] === movebleSeedArray[j][1]) {
+                            document.querySelector(`.square_${ludoBoxes[p[0]].runPathWay().seedsRealPosition[p[1] - 1]}`).append(newLudoSeed);
+                        } else {
+                            movebleSeedArray[j][2].append(newLudoSeed)
+                        }
+                    }
+
+                    // console.log(p[2])
+                    // playerSeeds = [[p.classList[0], p.classList[1], document.querySelector(`.square_${ludoBoxes[p.classList[0]].runPathWay().seedsRealPosition[parseInt(p.classList[1].slice(-1)) - 1]}`)]]
+                    // // p.remove();
+                    // for (let i = 0; i < playerOutSeedArray.length; i++) {
+                    //     oldPlayer = playerOutSeedArray[i]
+                    //     if (oldPlayer.classList[1] !== p.classList[1]) {
+                    //         playerSeeds = [...playerSeeds, [oldPlayer.classList[0], oldPlayer.classList[1], oldPlayer.parentElement]]
+                    //         console.log(playerSeeds)
+                    //         oldPlayer.remove()
+                    //     }
+                    // }
+                    //     console.log(newLudoSeed)
+                    //     newPlayer[2].append(newLudoSeed)
+                    // }
+                    count += 1;
+                    decisionFilter(player, count, lowNumDie, highNumDie);
+                }, { once: true })
+            }
+        } else {
             count += 1;
             decisionFilter(player, count, lowNumDie, highNumDie);
-        } else {
-            for (p of playerOutSeedArray) {
-                console.log('there', count, p)
-                if (ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1] + die < 58) {
-                    console.log('theres', count, p)
-                    p.addEventListener('click', () => {
-                        ludoBoxes[p.classList[0]].seedRelativePosition[parseInt(p.classList[1].slice(-1)) - 1] += die;
-                        playerSeeds = [[p.classList[0], p.classList[1], document.querySelector(`.square_${ludoBoxes[p.classList[0]].runPathWay().seedsRealPosition[parseInt(p.classList[1].slice(-1)) - 1]}`)]]
-                        p.remove();
-                        for (let i = 0; i < playerOutSeedArray.length; i++) {
-                            oldPlayer = playerOutSeedArray[i]
-                            if (oldPlayer.classList[1] !== p.classList[1]) {
-                                playerSeeds = [...playerSeeds, [oldPlayer.classList[0], oldPlayer.classList[1], oldPlayer.parentElement]]
-                                console.log(playerSeeds)
-                                oldPlayer.remove()
-                            }
-                        }
-                        for (i = 0; i < playerSeeds.length; i++) {
-                            newLudoSeed = document.createElement('div');
-                            newPlayer = playerSeeds[i];
-                            newLudoSeed.classList.add(`${newPlayer[0]}`, `${newPlayer[1]}`, `${player.player}`);
-                            console.log(newLudoSeed)
-                            newPlayer[2].append(newLudoSeed)
-                        }
-                        count += 1;
-                        decisionFilter(player, count, lowNumDie, highNumDie);
-                    }, { once: true })
-                }
-            }
         }
     } else {
         decisionFilter(player, count, lowNumDie, highNumDie);
@@ -438,9 +446,9 @@ function nextPlayer(player, lowNumDie) {
         delete playersList[player.player]
     }
     if (lowNumDie === 6) {
-        nxtId = parseInt(playerButton.classList[0].slice(-1));
+        nxtId = parseInt(playerButton.classList[0].slice(0, 8).slice(-1));
     } else {
-        nxtId = parseInt(playerButton.classList[0].slice(-1)) + 1;
+        nxtId = parseInt(playerButton.classList[0].slice(0, 8).slice(-1)) + 1;
     }
     nxtId %= (Object.entries(playersList).length + 1);
     while (!playersList[`player_${nxtId}`]) {
@@ -449,7 +457,7 @@ function nextPlayer(player, lowNumDie) {
     if (Object.entries(playersList).length > 1) {
         playerButton = document.createElement('button');
         playerButton.append(`Player ${nxtId}`)
-        playerButton.classList.add(`player_${nxtId}`, 'button', 'is-responsive', 'is-large');
+        playerButton.classList.add(`player_${nxtId}_button`, 'button', 'is-responsive', 'is-large');
         buttonDiv.append(playerButton)
         playerButton.addEventListener('click', playGame)
     } else {
