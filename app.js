@@ -175,12 +175,9 @@ function createPlayerInfo(colorList, playerNo, num) {
 }
 function playGame() {
     player = playersList[playerButton.classList[0].slice(0, 8)]
-    console.log(player)
     playerButton.remove()
     if (!isGameOver) {
         dieOutCome = rolldie();
-        console.log(dieOutCome)
-        // dieOutCome = [6, 5]
         for (dieDivv of dieDiv.children) {
             if (dieDivv !== document.querySelector('.title-is-3')) {
                 if (dieDivv.children.length) {
@@ -424,7 +421,7 @@ function nextPlayer(player, lowNumDie) {
     } else {
         nxtId = parseInt(playerButton.classList[0].slice(0, 8).slice(-1)) + 1;
     }
-    nxtId %= (Object.entries(playersList).length + 1);
+    nxtId %= playerNo + 1;
     while (!playersList[`player_${nxtId}`]) {
         nxtId++
     }
