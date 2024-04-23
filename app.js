@@ -7,7 +7,7 @@ const dieDiv = document.querySelector('.dieDiv');
 
 const ludoBoard = document.querySelector('.playGround');
 let isGameOver = false;
-const winners = []
+const winners = [];
 
 
 formDiv.classList.add('input_div', 'select', 'is-rounded', 'is-normal');
@@ -17,7 +17,7 @@ formDiv.innerHTML = `<form action="/playNo" class="playNoForm">
 <option value="four_4">Four</option>
 </select>
 <button type="submit"> SUBMIT</button>
-</form>`
+</form>`;
 const PlayNoForm = document.querySelector(`.formDiv form`);
 
 PlayNoForm.addEventListener('submit', (e) => {
@@ -59,22 +59,22 @@ function gameInitiator(e) {
             finishing: [203, 188, 173, 158, 143, 128],
             startings: [169, 183, 184, 168]
         }
-    ]
+    ];
     sectionBoxes = function () {
-        return [...this.normal, ...this.finishing]
-    }
+        return [...this.normal, ...this.finishing];
+    };
     runPathWay = function () {
-        idx = colorList.indexOf(this.color)
+        idx = colorList.indexOf(this.color);
         runWay = [...this.normal.slice(8)];
         for (i = idx + 1; i <= idx + 3; i++) {
-            innerIdx = i
+            innerIdx = i;
             if (innerIdx > 3) {
                 innerIdx %= 4;
             }
             iPath = ludoBoxes[colorList[innerIdx]].normal;
             runWay = [...runWay, ...iPath];
         }
-        runWay = [...runWay, ...this.normal.slice(0, 7), ...this.finishing]
+        runWay = [...runWay, ...this.normal.slice(0, 7), ...this.finishing];
         return {
             runWay,
             seedsRealPosition: [
@@ -83,8 +83,8 @@ function gameInitiator(e) {
                 [this.startings[2], ...runWay][this.seedRelativePosition[2]],
                 [this.startings[3], ...runWay][this.seedRelativePosition[3]],
             ]
-        }
-    }
+        };
+    };
 
 
     ludoBoxes = {};
@@ -95,7 +95,7 @@ function gameInitiator(e) {
             // seedRelativePosition: [1, 0, 0, 25],
             sectionBoxes,
             runPathWay
-        }
+        };
     }
     playersList = {};
     for (let i = 1; i <= playerNo; i++) {
@@ -123,139 +123,139 @@ function gameInitiator(e) {
                 playerDivColorOutSeed.classList.add(`${c.color}_seedOut_${j + 1}`);
                 playerDivColorOut.append(playerDivColorOutSeed);
             }
-            playerDivvColor.append(playerDivColorOut)
-            playerDivColor.append(playerDivvColor)
+            playerDivvColor.append(playerDivColorOut);
+            playerDivColor.append(playerDivvColor);
         }
-        playerDiv.append(playerDivColor)
-        playerProgress.append(playerDiv)
+        playerDiv.append(playerDivColor);
+        playerProgress.append(playerDiv);
     }
-    seedsAndPositions = []
+    seedsAndPositions = [];
     for (let i = 0; i < 4; i++) {
-        seedsAndPositions.push([ludoBoxes[colorList[i]].color, ludoBoxes[colorList[i]].runPathWay().seedsRealPosition])
+        seedsAndPositions.push([ludoBoxes[colorList[i]].color, ludoBoxes[colorList[i]].runPathWay().seedsRealPosition]);
     }
-    wayBoxes = [...ludoBoxes.red.sectionBoxes(), ...ludoBoxes.green.sectionBoxes(), ...ludoBoxes.yellow.sectionBoxes(), ...ludoBoxes.blue.sectionBoxes()]
+    wayBoxes = [...ludoBoxes.red.sectionBoxes(), ...ludoBoxes.green.sectionBoxes(), ...ludoBoxes.yellow.sectionBoxes(), ...ludoBoxes.blue.sectionBoxes()];
     for (c of colorList) {
-        wayBoxes = [...wayBoxes, ...ludoBoxes[c].sectionBoxes(), ...ludoBoxes[c].startings]
+        wayBoxes = [...wayBoxes, ...ludoBoxes[c].sectionBoxes(), ...ludoBoxes[c].startings];
     }
     for (let i = 1; i <= 225; i++) {
         const ludoBox = document.createElement('div');
         const ludoSeed = document.createElement('div');
-        if (wayBoxes.some(wayBox => { return i === wayBox })) {
+        if (wayBoxes.some(wayBox => { return i === wayBox; })) {
             for (seedAndPositions of seedsAndPositions) {
                 for (let j = 0; j <= seedAndPositions[1].length; j++) {
                     if (seedAndPositions[1][j] === i) {
                         ludoSeed.classList.add(`${seedAndPositions[0]}`, `${seedAndPositions[0]}_${j + 1}`);
                         ludoBox.classList.add(`square_${i}`);
-                        ludoBox.append(ludoSeed)
+                        ludoBox.append(ludoSeed);
                     } else {
-                        ludoBox.classList.add(`square_${i}`)
+                        ludoBox.classList.add(`square_${i}`);
                     }
                 }
             }
         }
         ludoBoard.append(ludoBox);
     }
-    playerButton.addEventListener('click', playGame)
+    playerButton.addEventListener('click', playGame);
     document.querySelector('.playNoForm').remove();
     isGameOver = false;
 }
 function createPlayerInfo(colorList, playerNo, num) {
     const colorInfo = [];
     if (playerNo === 4) {
-        colorInfo.push(ludoBoxes[colorList[num - 1]])
+        colorInfo.push(ludoBoxes[colorList[num - 1]]);
     } else {
-        colorInfo.push(ludoBoxes[colorList[num - 1]], ludoBoxes[colorList[num + 1]])
+        colorInfo.push(ludoBoxes[colorList[num - 1]], ludoBoxes[colorList[num + 1]]);
     }
     return {
         player: `player_${num}`,
         button: document.querySelector(`.player_${num}`),
         score: 0,
         colorInfo
-    }
+    };
 }
 function playGame() {
-    player = playersList[playerButton.classList[0].slice(0, 8)]
-    playerButton.remove()
+    player = playersList[playerButton.classList[0].slice(0, 8)];
+    playerButton.remove();
     if (!isGameOver) {
         dieOutCome = rolldie();
         for (dieDivv of dieDiv.children) {
             if (dieDivv !== document.querySelector('.title-is-3')) {
                 if (dieDivv.children.length) {
-                    dieDivv.children[0].remove()
+                    dieDivv.children[0].remove();
                 }
             }
         }
         diceResult1 = document.createElement('p');
-        diceResult1.classList.add('title-is-5')
-        diceResult1.innerText = dieOutCome[0]
+        diceResult1.classList.add('title-is-5');
+        diceResult1.innerText = dieOutCome[0];
         diceResult2 = document.createElement('p');
-        diceResult2.classList.add('title-is-5')
-        diceResult2.innerText = dieOutCome[1]
-        dieDiv.children[1].append(diceResult1)
-        dieDiv.children[2].append(diceResult2)
+        diceResult2.classList.add('title-is-5');
+        diceResult2.innerText = dieOutCome[1];
+        dieDiv.children[1].append(diceResult1);
+        dieDiv.children[2].append(diceResult2);
         lowNumDie = dieOutCome.reduce((die1, die2) => {
             if (die2 < die1) {
-                return die2
+                return die2;
             }
-            return die1
-        })
+            return die1;
+        });
         if (dieOutCome[0] === dieOutCome[1]) {
-            highNumDie = lowNumDie
+            highNumDie = lowNumDie;
         } else {
-            highNumDie = dieOutCome.filter(die => die !== lowNumDie)[0]
+            highNumDie = dieOutCome.filter(die => die !== lowNumDie)[0];
         }
         count = 0;
-        decisionFilter(player, count, lowNumDie, highNumDie)
+        decisionFilter(player, count, lowNumDie, highNumDie);
     }
 }
 function decisionFilter(player, count, lowNumDie, highNumDie) {
     if (count <= 1) {
         if (count === 0) {
-            die = highNumDie
+            die = highNumDie;
         } else {
-            die = lowNumDie
+            die = lowNumDie;
         }
         for (dieDivv of dieDiv.children) {
-            dieDivv.classList.remove('red_die', 'blue_die', 'yellow_die', 'green_die')
+            dieDivv.classList.remove('red_die', 'blue_die', 'yellow_die', 'green_die');
         }
         for (dieDivv of dieDiv.children) {
             if (die == dieDivv.innerText) {
                 if (player.colorInfo.length > 1) {
-                    dieDivv.classList.add(`${player.colorInfo[count].color}_die`)
+                    dieDivv.classList.add(`${player.colorInfo[count].color}_die`);
                 } else {
-                    dieDivv.classList.add(`${player.colorInfo[0].color}_die`)
+                    dieDivv.classList.add(`${player.colorInfo[0].color}_die`);
                 }
             }
         }
         jointArrays = [];
-        allJointArrays = []
+        allJointArrays = [];
         for (c of player.colorInfo) {
-            jointArrays = [...jointArrays, ...c.seedRelativePosition]
+            jointArrays = [...jointArrays, ...c.seedRelativePosition];
         }
         inSeedArray = jointArrays.filter(s => s === 0);
         outSeedArray = jointArrays.filter(s => s !== 0 && s < 57);
         if (die === 6) {
             if (inSeedArray.length && outSeedArray.length) {
-                makeChoices(player, count, lowNumDie, highNumDie, die)
+                makeChoices(player, count, lowNumDie, highNumDie, die);
             } else {
                 if (inSeedArray.length) {
-                    newSeedOut(player, count, lowNumDie, highNumDie)
+                    newSeedOut(player, count, lowNumDie, highNumDie);
                 } else if (outSeedArray.length) {
                     moveSeeds(player, count, lowNumDie, highNumDie, die);
                 } else {
-                    nextPlayer(player, lowNumDie)
+                    nextPlayer(player, lowNumDie);
                 }
             }
         } else {
             if (outSeedArray.length) {
                 moveSeeds(player, count, lowNumDie, highNumDie, die);
             } else {
-                nextPlayer(player, lowNumDie)
+                nextPlayer(player, lowNumDie);
             }
         }
 
     } else {
-        nextPlayer(player, lowNumDie)
+        nextPlayer(player, lowNumDie);
     }
 }
 function newSeedOut(player, count, lowNumDie, highNumDie) {
@@ -263,15 +263,15 @@ function newSeedOut(player, count, lowNumDie, highNumDie) {
         if (player.colorInfo[0].seedRelativePosition.some(p => p === 0) && player.colorInfo[1].seedRelativePosition.some(p => p === 0)) {
             inputDiv = document.createElement('div');
             inputDiv.classList.add('input_div', 'select', 'is-rounded', 'is-normal');
-            selectOption = `<select name="" id=""><option>Select an Option</option>`
+            selectOption = `<select name="" id=""><option>Select an Option</option>`;
             for (c of player.colorInfo) {
-                selectOption += `<option value="${c.color}">${c.color}</option>`
+                selectOption += `<option value="${c.color}">${c.color}</option>`;
             }
-            selectOption += ` </select >`
-            inputDiv.innerHTML = selectOption
+            selectOption += ` </select >`;
+            inputDiv.innerHTML = selectOption;
             selectDiv.append(inputDiv);
             inputDiv.addEventListener('input', function () {
-                inputDiv.remove()
+                inputDiv.remove();
                 for (c of player.colorInfo) {
                     if (c.color === this.children[0].value) {
                         seedIdx = c.seedRelativePosition.indexOf(0);
@@ -284,7 +284,7 @@ function newSeedOut(player, count, lowNumDie, highNumDie) {
                 }
                 count += 1;
                 decisionFilter(player, count, lowNumDie, highNumDie);
-            }, { once: true })
+            }, { once: true });
         } else {
             if (player.colorInfo[0].seedRelativePosition.some(p => p === 0)) {
                 c = player.colorInfo[0];
@@ -314,19 +314,19 @@ function newSeedOut(player, count, lowNumDie, highNumDie) {
 }
 function moveSeeds(player, count, lowNumDie, highNumDie, die) {
     if (count <= 1) {
-        playerOutSeedArray = document.querySelectorAll(`.${player.player}`)
+        playerOutSeedArray = document.querySelectorAll(`.${player.player}`);
         seedRelativePositionArray = [];
         for (let i = 0; i < playerOutSeedArray.length; i++) {
-            seedRelativePositionArray = [...seedRelativePositionArray, [playerOutSeedArray[i].classList[0], parseInt(playerOutSeedArray[i].classList[1].slice(-1)), playerOutSeedArray[i].parentElement, ludoBoxes[playerOutSeedArray[i].classList[0]].seedRelativePosition[parseInt(playerOutSeedArray[i].classList[1].slice(-1)) - 1]]]
+            seedRelativePositionArray = [...seedRelativePositionArray, [playerOutSeedArray[i].classList[0], parseInt(playerOutSeedArray[i].classList[1].slice(-1)), playerOutSeedArray[i].parentElement, ludoBoxes[playerOutSeedArray[i].classList[0]].seedRelativePosition[parseInt(playerOutSeedArray[i].classList[1].slice(-1)) - 1]]];
         }
-        movebleSeedArray = seedRelativePositionArray.filter(p => p[3] + die < 58)
+        movebleSeedArray = seedRelativePositionArray.filter(p => p[3] + die < 58);
         if (movebleSeedArray.length) {
             for (let i = 0; i < movebleSeedArray.length; i++) {
                 document.querySelector(`.${movebleSeedArray[i][0]}_${movebleSeedArray[i][1]}`).addEventListener('click', () => {
                     p = movebleSeedArray[i];
                     ludoBoxes[p[0]].seedRelativePosition[p[1] - 1] += die;
                     for (let j = 0; j < movebleSeedArray.length; j++) {
-                        document.querySelector(`.${movebleSeedArray[j][0]}_${movebleSeedArray[j][1]}`).remove()
+                        document.querySelector(`.${movebleSeedArray[j][0]}_${movebleSeedArray[j][1]}`).remove();
                         newLudoSeed = document.createElement('div');
                         newLudoSeed.classList.add(`${movebleSeedArray[j][0]}`, `${movebleSeedArray[j][0]}_${movebleSeedArray[j][1]}`, `${player.player}`);
                         if (p[0] === movebleSeedArray[j][0] && p[1] === movebleSeedArray[j][1]) {
@@ -337,7 +337,7 @@ function moveSeeds(player, count, lowNumDie, highNumDie, die) {
                     }
                     count += 1;
                     decisionFilter(player, count, lowNumDie, highNumDie);
-                }, { once: true })
+                }, { once: true });
             }
         } else {
             count += 1;
@@ -355,17 +355,17 @@ function makeChoices(player, count, lowNumDie, highNumDie, die) {
                             <option>Select an Option</option>
                             <option value="newSeedOut">Bring Out A Seed</option>
                             <option value="moveSeeds">Continue Moving Existing Seed</option>
-                          </select>`
+                          </select>`;
         selectDiv.append(inputDiv);
         inputDiv.addEventListener('input', function () {
             if (this.children[0].value === 'newSeedOut') {
                 inputDiv.remove();
-                newSeedOut(player, count, lowNumDie, highNumDie)
+                newSeedOut(player, count, lowNumDie, highNumDie);
             } else {
                 inputDiv.remove();
                 moveSeeds(player, count, lowNumDie, highNumDie, die);
             }
-        })
+        });
     } else {
         decisionFilter(player, count, lowNumDie, highNumDie);
     }
@@ -374,11 +374,11 @@ function getRandomNumber(e) {
     return Math.floor(Math.random() * e + 1);
 }
 function rolldie() {
-    return [getRandomNumber(6), getRandomNumber(6)]
+    return [getRandomNumber(6), getRandomNumber(6)];
 }
 function nextPlayer(player, lowNumDie) {
     for (pSeeds of document.querySelectorAll(`.${player.player}`)) {
-        delArr = []
+        delArr = [];
         if (pSeeds.parentElement.children.length > 1) {
             for (p of pSeeds.parentElement.children) {
                 if (p.classList[2] !== player.player) {
@@ -389,8 +389,8 @@ function nextPlayer(player, lowNumDie) {
         if (delArr.length) {
             ludoBoxes[delArr[0][0]].seedRelativePosition[parseInt(delArr[0][1].slice(-1)) - 1] = 0;
             ludoBoxes[pSeeds.classList[0]].seedRelativePosition[parseInt(pSeeds.classList[1].slice(-1)) - 1] = 57;
-            pSeeds.remove()
-            document.querySelector(`.${delArr[0][1]}`).remove()
+            pSeeds.remove();
+            document.querySelector(`.${delArr[0][1]}`).remove();
             newLudoSeed1 = document.createElement('div');
             newLudoSeed2 = document.createElement('div');
             newLudoSeed1.classList.add(`${pSeeds.classList[0]}`, `${pSeeds.classList[1]}`, `${pSeeds.classList[2]}`);
@@ -399,22 +399,22 @@ function nextPlayer(player, lowNumDie) {
             document.querySelector(`.square_${ludoBoxes[delArr[0][0]].runPathWay().seedsRealPosition[parseInt(delArr[0][1].slice(-1)) - 1]}`).append(newLudoSeed2);
         }
     }
-    finishLine = ['square_112', 'square_98', 'square_114', 'square_128']
+    finishLine = ['square_112', 'square_98', 'square_114', 'square_128'];
     for (let i = 0; i < 4; i++) {
         if (document.querySelector(`.${finishLine[i]}`).children.length) {
             for (fChild of document.querySelector(`.${finishLine[i]}`).children) {
-                document.querySelector(`.${fChild.classList[0]}_seedOut_${fChild.classList[1].slice(-1)}`).classList.add(`${fChild.classList[0]}_out`)
-                fChild.remove()
+                document.querySelector(`.${fChild.classList[0]}_seedOut_${fChild.classList[1].slice(-1)}`).classList.add(`${fChild.classList[0]}_out`);
+                fChild.remove();
             }
         }
     }
-    jArrays = []
+    jArrays = [];
     for (c of player.colorInfo) {
-        jArrays = [...jArrays, ...c.seedRelativePosition]
+        jArrays = [...jArrays, ...c.seedRelativePosition];
     }
     if (jArrays.every(j => j === 57)) {
-        winners.push(playersList[player.player])
-        delete playersList[player.player]
+        winners.push(playersList[player.player]);
+        delete playersList[player.player];
     }
     if (lowNumDie === 6 && playersList[player.player]) {
         nxtId = parseInt(playerButton.classList[0].slice(0, 8).slice(-1));
@@ -423,23 +423,23 @@ function nextPlayer(player, lowNumDie) {
     }
     nxtId %= playerNo + 1;
     while (!playersList[`player_${nxtId}`]) {
-        nxtId++
+        nxtId++;
     }
     if (Object.entries(playersList).length > 1) {
         playerButton = document.createElement('button');
-        playerButton.append(`Player ${nxtId}`)
+        playerButton.append(`Player ${nxtId}`);
         playerButton.classList.add(`player_${nxtId}_button`, 'button', 'is-responsive', 'is-large');
-        buttonDiv.append(playerButton)
-        playerButton.addEventListener('click', playGame)
+        buttonDiv.append(playerButton);
+        playerButton.addEventListener('click', playGame);
     } else {
-        winners.push(playersList[`player_${nxtId}`])
+        winners.push(playersList[`player_${nxtId}`]);
         position = ['First', 'Second', 'Third', 'Fourth'];
         isGameOver = true;
         for (i = 0; i < winners.length; i++) {
-            console.log(winners[i].player, '-', position[i])
+            console.log(winners[i].player, '-', position[i]);
         }
         while (playerProgress.children[0]) {
-            playerProgress.children[0].remove()
+            playerProgress.children[0].remove();
         }
         formDiv.classList.add('input_div', 'select', 'is-rounded', 'is-normal');
         formDiv.innerHTML = `<form action="/playNo" class="playNoForm">
@@ -448,9 +448,9 @@ function nextPlayer(player, lowNumDie) {
         <option value="four_4">Four</option>
         </select>
         <button type="submit"> SUBMIT</button>
-        </form>`
+        </form>`;
         document.querySelector(`.playNoForm`).addEventListener('submit', (e) => {
-            gameInitiator(e)
+            gameInitiator(e);
         });
     }
 }
