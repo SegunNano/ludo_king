@@ -1,0 +1,233 @@
+* {
+    font-family: 'Salsa';
+}
+
+/* body {
+    background-image: radial-gradient(rgba(254, 18, 1, 0.3),
+            rgb(254, 196, 0, 0.3),
+            rgb(0, 212, 0, 0.3),
+            rgb(0, 145, 254, 0.3)),
+        url("https://store-images.s-microsoft.com/image/apps.23512.14168906070567816.2c905c2f-df83-4ed1-b85a-8a30663f3138.0d912dd9-547b-4bf5-9039-f92dbc6c1e52?mode=scale&q=90&h=1080&w=1920");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-wrap: wrap;
+} */
+
+.dieDiv {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-shadow: 2px 2px #558ABB;
+}
+
+.dieDiv div {
+    width: 40px;
+    aspect-ratio: 1;
+    border: 1px solid black;
+    margin: 15px;
+    padding-top: 5px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.mainPart {
+    margin: 0;
+    width: 100%;
+}
+
+/* 
+body .red {
+  background-color: rgba(254, 18, 1, 0.7);
+}
+
+body .yellow {
+  background-color: rgb(254, 196, 0, 0.7);
+}
+
+body .green {
+  background-color: rgb(0, 212, 0, 0.7);
+}
+
+body .blue {
+  background-color: rgb(0, 145, 254, 0.7);
+} */
+.dice {
+
+    transition: transform 0.2s ease-in-out;
+}
+
+.rolling {
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(10deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    75% {
+        transform: rotate(-10deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+button {
+    font-size: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.playGround {
+    /* width: 100%; */
+    aspect-ratio: 1;
+    background: url(unnamed3.jpg );
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.playGround div {
+    aspect-ratio: 1;
+    width: 6.66666666666666666666666666666666666666666666666666666666666666666666667%;
+    margin: 0;
+}
+
+.playGround div div {
+    width: 35%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: .2px solid rgba(0, 0, 0, 0.267);
+    box-shadow: 3px 2px rgba(0, 0, 0, 0.466);
+}
+
+.playGround div div,
+.dieDiv div {
+    transition: 300ms linear;
+}
+
+.playGround div .red,
+.red_out {
+    background-color: rgb(254, 17, 1);
+}
+
+.playGround div .green,
+.green_out {
+    background-color: rgb(0, 212, 0);
+}
+
+.playGround div .blue,
+.blue_out {
+    background-color: rgb(0, 145, 254);
+}
+
+.playGround div .yellow,
+.yellow_out {
+    background-color: rgb(254, 196, 0);
+}
+
+
+.red_die {
+    background-color: rgba(254, 18, 1, 0.521);
+}
+
+.green_die {
+    background-color: rgba(0, 212, 01, 0.521);
+}
+
+.blue_die {
+    background-color: rgba(0, 145, 2541, 0.521);
+}
+
+.yellow_die {
+    background-color: rgba(254, 196, 01, 0.521);
+}
+
+.playerProgress {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.playerProgress>div {
+    width: 50%
+}
+
+.playerProgress>div>p {
+    text-align: center;
+    text-decoration: underline;
+    font-size: 1.5rem;
+}
+
+.playerProgress>div>div {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.playerProgress>div>div>div {
+    padding: 0, 2px;
+    margin: 10px;
+    width: 100%;
+}
+
+.playerProgress>div>div>div>p {
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.playerProgress>div>div>.red-out>p {
+    color: rgb(254, 17, 1);
+    text-shadow: 2px 2px rgba(254, 18, 1, 0.24);
+}
+
+.playerProgress>div>div>.green-out>p {
+    color: rgb(0, 212, 0);
+    text-shadow: 2px 2px rgba(0, 212, 0, 0.24);
+}
+
+.playerProgress>div>div>.yellow-out>p {
+    color: rgb(254, 196, 0);
+    text-shadow: 2px 2px rgba(254, 196, 0, 0.24);
+}
+
+.playerProgress>div>div>.blue-out>p {
+    color: rgb(0, 145, 254);
+    text-shadow: 2px 2px rgba(0, 145, 254, 0.24);
+}
+
+.playerProgress>div>div>div>div {
+    /* border: black 1px solid; */
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    border-radius: 30px;
+    background-color: beige;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.466);
+}
+
+.playerProgress>div>div>div>div>div {
+    border: rgba(0, 0, 0, 0.466) 2px solid;
+    width: 15%;
+    aspect-ratio: 1;
+    margin: 5px;
+    display: inline-block;
+    border-radius: 50%;
+    box-shadow: 3px 3px rgba(0, 0, 0, 0.466);
+}
