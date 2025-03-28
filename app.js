@@ -90,8 +90,8 @@ function gameInitiator(e) {
   for (let i = 0; i <= 3; i++) {
     ludoBoxes[colorList[i]] = {
       ...ludoSections[i],
-      seedRelativePosition: [0, 0, 0, 0],
-      // seedRelativePosition: [1, 0, 0, 25],
+      // seedRelativePosition: [0, 0, 0, 0],
+      seedRelativePosition: [1, 0, 0, 25],
       sectionBoxes,
       runPathWay,
     };
@@ -210,7 +210,7 @@ function playGame() {
   }
 }
 function decisionFilter(player, count, lowNumDie, highNumDie) {
-  console.log({ count });
+  //   console.log({ count });
   if (count > 1) return nextPlayer(player, lowNumDie);
   let die = count === 0 ? highNumDie : lowNumDie;
   let inSeedArray = player.colorInfo
@@ -428,27 +428,25 @@ function moveSeeds(player, count, lowNumDie, highNumDie, die) {
   }
 }
 function makeChoices(player, count, lowNumDie, highNumDie, die) {
-  if (count <= 1) {
-    inputDiv = document.createElement("div");
-    inputDiv.classList.add("input_div", "select", "is-rounded", "is-normal");
-    inputDiv.innerHTML = `<select name="" id="">
+  if (count > 1) return decisionFilter(player, count, lowNumDie, highNumDie);
+
+  inputDiv = document.createElement("div");
+  inputDiv.classList.add("input_div", "select", "is-rounded", "is-normal");
+  inputDiv.innerHTML = `<select name="" id="">
                             <option>Select an Option</option>
                             <option value="newSeedOut">Bring Out A Seed</option>
                             <option value="moveSeeds">Continue Moving Existing Seed</option>
                           </select>`;
-    selectDiv.append(inputDiv);
-    inputDiv.addEventListener("input", () => {
-      if (this.children[0].value === "newSeedOut") {
-        inputDiv.remove();
-        newSeedOut(player, count, lowNumDie, highNumDie);
-      } else {
-        inputDiv.remove();
-        moveSeeds(player, count, lowNumDie, highNumDie, die);
-      }
-    });
-  } else {
-    decisionFilter(player, count, lowNumDie, highNumDie);
-  }
+  selectDiv.append(inputDiv);
+  inputDiv.addEventListener("input", () => {
+    if (this.children[0].value === "newSeedOut") {
+      inputDiv.remove();
+      newSeedOut(player, count, lowNumDie, highNumDie);
+    } else {
+      inputDiv.remove();
+      moveSeeds(player, count, lowNumDie, highNumDie, die);
+    }
+  });
 }
 function getRandomNumber(e) {
   return Math.floor(Math.random() * e + 1);
